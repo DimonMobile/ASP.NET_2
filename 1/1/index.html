@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Test REST</title>
+    <script>
+        function getCurrentResultValue() {
+            let element = document.getElementById('result');
+            fetch("test.pda").then(text => text.json()).then(jsonObject => {
+                result.innerText = jsonObject.result;
+            });
+        }
+
+        function onPost() {
+            let value = parseInt(document.getElementById('valueInput').value);
+            fetch("test.pda", {
+                method: 'POST',
+                body: `RESULT=${value}`,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        }
+
+        function onDelete() {
+            let value = parseInt(document.getElementById('valueInput').value);
+            fetch("test.pda", {
+                method: 'DELETE'
+            });
+        }
+
+        function onPut() {
+            let value = parseInt(document.getElementById('valueInput').value);
+            fetch("test.pda", {
+                method: 'PUT',
+                body: `ADD=${value}`,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+        }
+        
+    </script>
+</head>
+<body>
+    <p>Current result value: <span id="result"></span></p>
+    <p>
+        Actions
+        <ul>
+            <li><a href="#" onclick="onPost()">POST</a></li>
+            <li><a href="#" onclick="onPut()">PUT</a></li>
+            <li><a href="#" onclick="onDelete()">DELETE</a></li>
+        </ul>
+    </p>
+    <p>
+        <input type="number" id="valueInput"/>
+    </p>
+    <script>
+        setInterval(getCurrentResultValue, 250);
+    </script>
+</body>
+</html>
